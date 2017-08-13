@@ -1,0 +1,95 @@
+
+<html>
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function getData() {
+            var jsonArrayData = [];
+            var jsonData = $.ajax({
+                url: "http://localhost:8080/getall",
+                dataType: "json",
+                async: false
+            }).responseText;
+            var jsonObj = $.parseJSON(jsonData);
+            jsonArrayData.push(['Tijd', 'Temp', 'Fan'])
+            for (i=0; i<jsonObj.length; i++){
+                jsonArrayData.push([new Date(jsonObj[i].date), jsonObj[i].temp, jsonObj[i].sturing])
+            }
+            return new google.visualization.arrayToDataTable(jsonArrayData);
+
+        }
+
+        function drawChart() {
+            var data = getData();
+
+            var options = {
+                title: 'Smoker',
+                curveType: 'function',
+                hAxis: {title: 'Tijd',
+                    slantedText:true, slantedTextAngle:80},
+                vAxis: {minValue: 80},
+                explorer: {
+                    actions: ['dragToZoom', 'rightClickToReset'],
+                    axis: 'horizontal',
+                    keepInBounds: true,
+                    maxZoomIn: 4.0}
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+
+            chart.draw(data, options);
+            view = new google.visualization.DataView(data);
+            view.hideColumns([2]);
+            chart.draw(view, options);
+
+            var hideSal = document.getElementById("hideSales");
+            hideSal.onclick = function()
+            {
+                view = new google.visualization.DataView(data);
+                view.hideColumns([1]);
+                chart.draw(view, options);
+            }
+            var hideExp = document.getElementById("hideExpenses");
+            hideExp.onclick = function()
+            {
+                view = new google.visualization.DataView(data);
+                view.hideColumns([2]);
+                chart.draw(view, options);
+            }
+            var all = document.getElementById("all");
+            all.onclick = function()
+            {
+                view = new google.visualization.DataView(data);
+                chart.draw(view, options);
+            }
+
+        }
+    </script>
+</head>
+<body>
+
+<div style="text-align: center;"><div style="width: 100%; margin: 0 auto;"><h1>
+    Huidige temp:
+    85 graden, zuurstofdoorvoer op 80%
+</h1></div></div>
+
+
+
+<div id="chart_div" style="width: 100%; height: 500px"></div>
+<div style="text-align: center;"><div style="width: 500px; margin: 0 auto;"><h1>
+
+    <button type="button" id="hideSales"  >Alleen ventilator</button>
+    <button type="button" id="hideExpenses"  >Alleen temp</button>
+    <button type="button" id="all"  >Beide</button>
+</h1></div></div>
+
+<a href="http://localhost:8080/getall">getall</a><br>
+<a href="http://localhost:8080/getfirst">getfirst</a><br>
+
+</body>
+</html>
