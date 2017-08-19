@@ -16,13 +16,32 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <!--<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
     <script type="text/javascript">
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawChart);
+
+        var range = "2hour";
+
+        function load(){
+            loadCurrentStatus();
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(drawChart);
+        }
+
+        function loadCurrentStatus(){
+            var last = $.ajax({
+                url: "getlast",
+                dataType: "json",
+                async: false
+            }).responseText;
+            var lastObj = $.parseJSON(last);
+            var temp = lastObj.temp;
+            var sturing = lastObj.sturing;
+            $('#currentState').html("Huidige temp: "+temp+" graden, zuurstofdoorvoer op "+sturing+"%");
+
+        }
 
         function getData() {
             var jsonArrayData = [];
             var jsonData = $.ajax({
-                url: "getall",
+                url: "getall?range="+range,
                 dataType: "json",
                 async: false
             }).responseText;
@@ -84,27 +103,45 @@
 
         $(document).ready(function() {
             $('input[type=radio][name=samplerange]').change(function() {
-                alert(this.value);
+                if (this.value=="custom"){
+                    range = "custom#"+$('#datepicker').val()+$('#van').val()+"#"+ $('#tot').val();
+                }
+                else {
+                    range = this.value;
+                }
+                reload();
             });
             $('input[name=autorefresh]').change(function() {
-                alert(this.checked);
+                reload();
             });
             $('#datepicker').change(function() {
-                alert(this.value);
+                $('#custom').prop('checked',true);
+                range = "custom#"+$('#datepicker').val()+$('#van').val()+"#"+ $('#tot').val();
+                reload();
             });
             $('#van').change(function() {
-                alert(this.value);
+                $('#custom').prop('checked',true);
+                range = "custom#"+$('#datepicker').val()+$('#van').val()+"#"+ $('#tot').val();
+                reload();
             });
             $('#tot').change(function() {
-                alert(this.value);
+                $('#custom').prop('checked',true);
+                range = "custom#"+$('#datepicker').val()+$('#van').val()+"#"+ $('#tot').val();
+                reload();
             });
         });
 
-        setInterval(reload,1000);
+        setInterval(reload,5000);
 
-        function reload(){
-//            alert("reload");
+        function reload(range){
+            if ($('input[name=autorefresh]').is(":checked")){
+                load();
+            }
         }
+
+        load();
+
+
 
     </script>
 </head>
@@ -114,7 +151,7 @@
     <input type="radio" name="samplerange" value="2uur" checked> laatste 2 uur<br>
     <input type="radio" name="samplerange" value="8uur"> laatste 8 uur <br>
     <input type="radio" name="samplerange" value="24uur"> laatste 24 uur <br>
-    <input type="radio" name="samplerange" value="custom"> custom :
+    <input type="radio" name="samplerange" id="custom" value="custom"> custom :
     dag: <input type="text" id="datepicker">
     van
     <input type="text" id="van" value="00:00">
@@ -133,8 +170,7 @@
 
 
 <div style="text-align: center;"><div style="width: 100%; margin: 0 auto;"><h1>
-    Huidige temp:
-    85 graden, zuurstofdoorvoer op 80%
+    <p id="currentState">Huidige status ophalen..</p>
 </h1></div></div>
 
 
