@@ -17,7 +17,7 @@
     <!--<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
     <script type="text/javascript">
 
-        var range = "2hour";
+        var range = "2uur";
 
         function load(){
             loadCurrentStatus();
@@ -104,7 +104,7 @@
         $(document).ready(function() {
             $('input[type=radio][name=samplerange]').change(function() {
                 if (this.value=="custom"){
-                    range = "custom#"+$('#datepicker').val()+$('#van').val()+"#"+ $('#tot').val();
+                    range = "custom_"+$('#datepicker').val()+$('#van').val()+"_"+ $('#tot').val();
                 }
                 else {
                     range = this.value;
@@ -116,17 +116,17 @@
             });
             $('#datepicker').change(function() {
                 $('#custom').prop('checked',true);
-                range = "custom#"+$('#datepicker').val()+$('#van').val()+"#"+ $('#tot').val();
+                range = "custom_"+$('#datepicker').val()+"_"+$('#van').val()+"_"+ $('#tot').val();
                 reload();
             });
             $('#van').change(function() {
                 $('#custom').prop('checked',true);
-                range = "custom#"+$('#datepicker').val()+$('#van').val()+"#"+ $('#tot').val();
+                range = "custom_"+$('#datepicker').val()+"_"+$('#van').val()+"_"+ $('#tot').val();
                 reload();
             });
             $('#tot').change(function() {
                 $('#custom').prop('checked',true);
-                range = "custom#"+$('#datepicker').val()+$('#van').val()+"#"+ $('#tot').val();
+                range = "custom_"+$('#datepicker').val()+"_"+$('#van').val()+"_"+ $('#tot').val();
                 reload();
             });
         });

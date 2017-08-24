@@ -9,10 +9,10 @@ import org.springframework.web.reactive.function.server.RouterFunction
 class RouterFunctionsConfig {
 
     @Autowired
-    val smokerlogRepository: SmokerlogRepository? = null;
+    val smokerLogDao: SmokerLogDao? = null;
 
     @Bean
     fun routerFunctions(): RouterFunction<*> {
-        return ApplicationRoutes.routes(smokerlogRepository)
+        return ApplicationRoutes.routes(smokerLogDao)
     }
 }

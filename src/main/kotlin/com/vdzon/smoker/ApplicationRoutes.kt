@@ -14,53 +14,47 @@ import java.util.*
 object ApplicationRoutes {
 
 
-    fun routes(smokerlogRepository: SmokerlogRepository?): RouterFunction<*> {
+    fun routes(logDao: SmokerLogDao?): RouterFunction<*> {
         return (route(GET("/getlast"),
-                HandlerFunction { r -> getMono(smokerlogRepository) }
+                HandlerFunction { r -> getLastSample(logDao) }
         ))
                 .and(route(GET("/getall"),
-                        HandlerFunction { r -> getFlux(r, smokerlogRepository) }
+                        HandlerFunction { r -> getAll(r, logDao) }
                 ))
                 .and(route(GET("/add"),
-                        HandlerFunction { r -> add(r, smokerlogRepository) }
+                        HandlerFunction { r -> add(r, logDao) }
                 ))
 
     }
 
-    private fun add(r: ServerRequest?, smokerlogRepository: SmokerlogRepository?): Mono<ServerResponse> {
+    private fun add(r: ServerRequest?, logDao: SmokerLogDao?): Mono<ServerResponse> {
         val tempString = r!!.queryParam("temp");
         val sturingString = r!!.queryParam("sturing");
         val temp = tempString.map { Integer.valueOf(it) }.orElse(0)
         val sturing = sturingString.map { Integer.valueOf(it) }.orElse(0)
-        val domain: SmokerLog = SmokerLog(UUID.randomUUID(), Date(), temp, sturing)
-        smokerlogRepository!!.save(domain).block()
+        val domain = SmokerLog(UUID.randomUUID(), Date(), temp, sturing)
+        logDao!!.save(domain)
         val body: Mono<ServerResponse> = ServerResponse.ok().body(Mono.just("ok"), String::class.java)
         return body
     }
 
-    private fun getFlux(r: ServerRequest?, smokerlogRepository: SmokerlogRepository?): Mono<ServerResponse> {
+    private fun getAll(r: ServerRequest?, logDao: SmokerLogDao?): Mono<ServerResponse> {
         val range = r!!.queryParam("range");
-        val findAll: Flux<SmokerLog> =
+        val findAll: Flux<SmokerLogDto> =
                 if (range.isPresent) {
-                    println(range.get())
-                    smokerlogRepository!!.findAll()
+                    logDao!!.getRange(range.get()).map { SmokerLogDto.fromSmokerLog(it) }
                 } else {
-                    smokerlogRepository!!.findAll()
+                    logDao!!.findAll().map { SmokerLogDto.fromSmokerLog(it) }
                 };
-        val body = ServerResponse.ok().body(findAll, SmokerLog::class.java)
+        val body = ServerResponse.ok().body(findAll, SmokerLogDto::class.java)
         return body
     }
 
-
-    private fun getMono(smokerlogRepository: SmokerlogRepository?): Mono<ServerResponse> {
-//        val body: Mono<ServerResponse> = ServerResponse.ok().body(getFirstByDomain(smokerlogRepository), SmokerLog::class.java)
-        val body: Mono<ServerResponse> = ServerResponse.ok().body(Mono.just(SmokerLog(UUID.randomUUID(),Date(),12,13)), SmokerLog::class.java)
+    private fun getLastSample(logDao: SmokerLogDao?): Mono<ServerResponse> {
+        val lastLog = logDao!!.getLastSample()
+        val lastLogDto = lastLog.map { SmokerLogDto.fromSmokerLog(it)!! }
+        val body: Mono<ServerResponse> = ServerResponse.ok().body(lastLogDto, SmokerLogDto::class.java)
         return body
-    }
-
-    private fun getFirstByDomain(smokerlogRepository: SmokerlogRepository?): Mono<SmokerLog> {
-        val res: Mono<SmokerLog> = smokerlogRepository!!.findFirstByDate()
-        return res
     }
 
 }
