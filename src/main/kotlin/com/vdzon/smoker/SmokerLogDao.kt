@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.text.SimpleDateFormat
+import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
@@ -94,10 +95,17 @@ class SmokerLogDao() {
             return Dates(startTime, endTime)
         }
 
+        fun fromEpoch(): Dates {
+            val endTime: Date = Date();
+            val startTime = Date.from(Instant.ofEpochMilli(0));
+            return Dates(startTime, endTime)
+        }
+
         return when {
             range.equals("2uur") -> minusHours(2)
             range.equals("8uur") -> minusHours(8)
             range.equals("24uur") -> minusHours(24)
+            range.equals("alles") -> fromEpoch()
             range.startsWith("custom") -> {
                 val pattern = "MM/dd/yyyy HH:mm"
                 val simpleDateFormat = SimpleDateFormat(pattern)
