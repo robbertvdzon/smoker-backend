@@ -2,7 +2,6 @@ package com.vdzon.smoker
 
 import org.springframework.web.reactive.function.server.HandlerFunction
 import org.springframework.web.reactive.function.server.RequestPredicates.GET
-import org.springframework.web.reactive.function.server.RequestPredicates.POST
 import org.springframework.web.reactive.function.server.RouterFunction
 import org.springframework.web.reactive.function.server.RouterFunctions.route
 import org.springframework.web.reactive.function.server.ServerRequest
@@ -22,7 +21,7 @@ object ApplicationRoutes {
                 .and(route(GET("/getall"),
                         HandlerFunction { r -> getAll(r, logDao) }
                 ))
-                .and(route(POST("/add"),
+                .and(route(GET("/add"),
                         HandlerFunction { r -> add(r, logDao) }
                 ))
 
