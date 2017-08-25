@@ -66,8 +66,8 @@ class SmokerLogDao() {
     }
 
 
-    fun save(log: SmokerLog) {
-        smokerlogRepository!!.save(log).block()
+    fun save(log: SmokerLog):Mono<SmokerLog> {
+        return smokerlogRepository!!.save(log)
     }
 
     fun findAll() = smokerlogRepository!!.findAll(Sort(Sort.Direction.DESC, "date"))

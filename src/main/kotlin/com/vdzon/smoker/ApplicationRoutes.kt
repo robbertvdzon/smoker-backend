@@ -33,8 +33,8 @@ object ApplicationRoutes {
         val temp = tempString.map { Integer.valueOf(it) }.orElse(0)
         val sturing = sturingString.map { Integer.valueOf(it) }.orElse(0)
         val domain = SmokerLog(UUID.randomUUID(), Date(), temp, sturing)
-        logDao!!.save(domain)
-        val body: Mono<ServerResponse> = ServerResponse.ok().body(Mono.just("ok"), String::class.java)
+        val added = logDao!!.save(domain)
+        val body: Mono<ServerResponse> = ServerResponse.ok().body(added, SmokerLog::class.java)
         return body
     }
 
