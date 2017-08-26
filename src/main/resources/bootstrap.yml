@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: smoker-backend
+  profiles:
+    active:
+      dev
+  cloud:
+    config:
+      uri: http://test.config.vdzon.com:8888

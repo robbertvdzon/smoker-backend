@@ -11,8 +11,11 @@ class RouterFunctionsConfig {
     @Autowired
     val smokerLogDao: SmokerLogDao? = null;
 
+    @Autowired
+    val smokerProperties:SmokerProperties? = null;
+
     @Bean
     fun routerFunctions(): RouterFunction<*> {
-        return ApplicationRoutes.routes(smokerLogDao)
+        return ApplicationRoutes.routes(smokerLogDao, smokerProperties)
     }
 }

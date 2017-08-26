@@ -13,13 +13,17 @@ import java.util.*
 
 object ApplicationRoutes {
 
-
-    fun routes(logDao: SmokerLogDao?): RouterFunction<*> {
+    fun routes(logDao: SmokerLogDao?, smokerProperties:SmokerProperties?): RouterFunction<*> {
         return (route(GET("/getlast"),
                 HandlerFunction { r -> getLastSample(logDao) }
         ))
                 .and(route(GET("/getall"),
                         HandlerFunction { r -> getAll(r, logDao) }
+                ))
+                .and(route(GET("/test"),
+                        HandlerFunction { r ->
+                            val just = Mono.just(smokerProperties!!.exampleProperty!!)
+                            ServerResponse.ok().body(just, String::class.java) }
                 ))
                 .and(route(GET("/add"),
                         HandlerFunction { r -> add(r, logDao) }
