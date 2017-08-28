@@ -1,3 +1,6 @@
+encrypt:
+  key: pass_real_passwd_as_an_environment
+
 spring:
   application:
     name: smoker-backend
