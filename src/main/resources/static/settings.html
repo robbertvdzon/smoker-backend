@@ -13,9 +13,25 @@
                 var username = result.username;
                 var authenticated = result.authenticated;
                 userId = result.userid;
-                $('#currentState').html(username+" : "+authenticated);
+                var user = result.user;
+                var uploadAuthKey = "";
+                if (user!=null) {
+                    uploadAuthKey = user.uploadAuthKey;
+                }
+                $('#username').html(username);
+                $('#uploadAuthKey').val(uploadAuthKey);
             }});
         }
+
+
+        function setAuth(){
+            var key = $('#uploadAuthKey').val();
+            $.ajax({url: "/setAuthKey?key="+key, dataType: "json", success: function(result){
+                load();
+            }});
+        }
+
+
         load();
 
     </script>
@@ -24,10 +40,15 @@
 
 
 
-<div style="text-align: center;"><div style="width: 100%; margin: 0 auto;"><h1>
-    <p id="currentState">Gebruiker status ophalen..</p>
-</h1></div></div>
 
+<div style="text-align: center;"><div style="width: 100%; margin: 0 auto;"><h1>
+    Instellingen
+</h1></div></div>
+Gebruiker: <span id="username">..</span><br>
+
+Upload auth key:<input type="text" name="key" id="uploadAuthKey">
+<button onclick="setAuth()">Set auth</button><br>
+<br>
 
 <a href="index.html">terug</a><br>
 
