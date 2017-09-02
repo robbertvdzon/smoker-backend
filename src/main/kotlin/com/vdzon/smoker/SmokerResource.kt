@@ -50,7 +50,7 @@ class SmokerResource {
         return primaryConnection?.api.fetchObject("me", User::class.java, *fields)
     }
 
-    data class Status(val userid: String?,val username: String?,val authenticated: Boolean, val version:String?, val timestamp:String?)
+    data class Status(val userid: String?,val username: String?,val authenticated: Boolean, val version:String?, val profiel:String?)
     @RequestMapping("/getstatus")
     fun getstatus(): Status {
         val user: User? = user();
@@ -58,7 +58,7 @@ class SmokerResource {
                 userid = user?.id,
                 authenticated = user!=null,
                 version = smokerProperties!!.buildVersion,
-                timestamp = smokerProperties!!.buildTimestamp
+                profiel =  smokerProperties!!.configuratieProfiel
         )
     }
 
