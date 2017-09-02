@@ -7,7 +7,6 @@ ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS \
 -Dencrypt.key=$encryptkey \
 -Dspring.profiles.active=$springprofilesactive \
 -Dspring.cloud.config.uri=$springcloudconfiguri \
--Dspring.application.name=$springapplicationname \
 -jar /app.jar" ]
 
 
