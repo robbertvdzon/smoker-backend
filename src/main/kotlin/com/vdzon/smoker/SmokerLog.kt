@@ -8,6 +8,7 @@ import java.util.*
 data class SmokerLog(
         @Id
         val id: UUID = UUID.randomUUID(),
+        val userid: String,
         val date: Date,
         val temp: Int,
         val sturing: Int

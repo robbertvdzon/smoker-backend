@@ -25,6 +25,7 @@ class SmokerLogDao(
 ) {
 
     data class SmokerLog2(
+            val userid: String,
             val date: Date,
             val temp: Int,
             val sturing: Int
@@ -40,7 +41,8 @@ class SmokerLogDao(
 
 
 
-    fun getRange(range: String): List<SmokerLog> {
+    fun getRange(userId:String, range: String): List<SmokerLog>? {
+        if (userId.isEmpty()) return null;
         val (startTime: Date, endTime: Date) = transformDate(range)
         val reduceOutput = hoursBetween(startTime, endTime) > 2
         return if (reduceOutput) {
@@ -51,6 +53,7 @@ class SmokerLogDao(
                             .and("date").extractMinute().`as`("minute")
                             .and("date").`as`("date")
                             .and("temp").`as`("temp")
+                            .and("userid").`as`("userid")
                             .and("sturing").`as`("sturing")
                     ,
                     Aggregation.group("dayOfYear", "hour", "minute")
@@ -60,16 +63,20 @@ class SmokerLogDao(
                             .`as`("date")
                             .avg("sturing")
                             .`as`("sturing")
+                            .first("userid")
+                            .`as`("userid")
                     ,
                     Aggregation.sort(Sort.Direction.DESC, "date"),
                     Aggregation.match(Criteria.where("date").gt(startTime)),
-                    Aggregation.match(Criteria.where("date").lt(endTime))
+                    Aggregation.match(Criteria.where("date").lt(endTime)),
+                    Aggregation.match(Criteria.where("userid").`is`(userId))
             )
             //Convert the aggregation result into a List
             val aggregate = mongoTemplate!!.aggregate(agg, SmokerLog::class.java, SmokerLog2::class.java)
-            return aggregate.map { SmokerLog(id = UUID.randomUUID(), date = it.date, temp = it.temp, sturing = it.sturing) }
-        } else
-            smokerlogRepository!!.findByDateBetween(startTime, endTime, Sort(Sort.Direction.DESC, "date"))
+            return aggregate.map { SmokerLog(id = UUID.randomUUID(), userid = it.userid ,date = it.date, temp = it.temp, sturing = it.sturing) }
+        } else {
+            smokerlogRepository!!.findByDateBetween(userId, startTime, endTime, Sort(Sort.Direction.DESC, "date"))
+        }
     }
 
 
@@ -77,14 +84,15 @@ class SmokerLogDao(
         return smokerlogRepository!!.save(log)
     }
 
-    fun findAll() = smokerlogRepository!!.findAll(Sort(Sort.Direction.DESC, "date"))
+//    fun findAll() = smokerlogRepository!!.findAll(Sort(Sort.Direction.DESC, "date"))
 
-    fun getLastSample(): SmokerLog {
+    fun getLastSample(userID:String): SmokerLog? {
         /*
         DIT IS NU HEEL LELIJK GEDAAN!
          */
         val (startTime: Date, endTime: Date) = transformDate("2uur")
-        return smokerlogRepository!!.findByDateBetween(startTime, endTime, Sort(Sort.Direction.DESC, "date"))!!.get(0)
+        if (userID.isEmpty()) return null;
+        return smokerlogRepository!!.findByDateBetween(userID, startTime, endTime, Sort(Sort.Direction.DESC, "date"))!!.get(0)
 //        return smokerlogRepository!!.findAll().get(0)
 //        return smokerlogRepository!!.findFirst(Sort(Sort.Direction.DESC, "date"));
     }

@@ -6,14 +6,14 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript">
+        var userId = "";
 
         function load(){
             $.ajax({url: "getstatus", dataType: "json", success: function(result){
                 var username = result.username;
                 var authenticated = result.authenticated;
-                var version = result.version;
-                var timestamp = result.timestamp;
-                $('#currentState').html(username+" : "+authenticated + ":"+version +":"+timestamp);
+                userId = result.userid;
+                $('#currentState').html(username+" : "+authenticated);
             }});
         }
         load();
@@ -25,21 +25,12 @@
 
 
 <div style="text-align: center;"><div style="width: 100%; margin: 0 auto;"><h1>
-    <p id="currentState">Huidige status ophalen..</p>
+    <p id="currentState">Gebruiker status ophalen..</p>
 </h1></div></div>
 
 
-<form action="/connect/facebook" method="POST">
-    <input type="hidden" name="scope" value="user_posts" />
-
-    <div class="formInfo">
-        <p>Verbind met </p>
-    </div>
-    <p><button type="submit">Verbind met Facebook</button></p>
-</form>
-
-<a href="user">user info</a><br>
-<a href="settings.html">settings</a><br>
+<a href='#' onclick='window.location.href = "grafiek.html#"+userId;'>grafiek</a><br>
+<a href="index.html">terug</a><br>
 
 </body>
 </html>

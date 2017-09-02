@@ -8,4 +8,13 @@ class SmokerProperties {
 
     @Value("\${example.property}")
     val exampleProperty: String? = null
+
+    @Value("\${application.name}")
+    val applicationName: String? = null
+
+    @Value("\${build.version}")
+    val buildVersion: String? = null
+
+    @Value("\${build.timestamp}")
+    val buildTimestamp: String? = null
 }
