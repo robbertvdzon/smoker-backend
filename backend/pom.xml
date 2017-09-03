@@ -12,11 +12,12 @@
 	<description>Smoker</description>
 
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.0.M3</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<groupId>com.vdzon</groupId>
+		<artifactId>smoker-root</artifactId>
+		<version>0.1</version>
+		<relativePath>..</relativePath>
 	</parent>
+
 
 	<properties>
 		<kotlin.compiler.incremental>true</kotlin.compiler.incremental>
@@ -124,6 +125,12 @@
 		<testSourceDirectory>src/test/kotlin</testSourceDirectory>
 
 		<plugins>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
