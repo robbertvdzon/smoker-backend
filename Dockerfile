@@ -1,6 +1,6 @@
 FROM openjdk:8-jdk-alpine
 VOLUME /tmp
-ADD target/smoker-*.jar app.jar
+ADD backend/target/smoker-*.jar app.jar
 ENV JAVA_OPTS=""
 ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS \
 -Djava.security.egd=file:/dev/./urandom \
