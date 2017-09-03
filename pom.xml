@@ -10,7 +10,7 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>frontend</module>
+		<module>angular</module>
 		<module>backend</module>
 	</modules>
 
