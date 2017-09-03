@@ -1,6 +1,5 @@
 package com.vdzon.smoker
 
-import org.apache.http.cookie.SM
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.social.connect.ConnectionRepository
 import org.springframework.social.facebook.api.Facebook
