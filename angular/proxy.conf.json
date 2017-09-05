@@ -1,0 +1,11 @@
+{
+
+  "/api2": {
+    "target": "http://test.smoker.backend.vdzon.com",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {"^/api2" : "/api"}
+  }
+
+
+}
