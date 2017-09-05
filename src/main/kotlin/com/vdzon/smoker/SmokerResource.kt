@@ -12,6 +12,7 @@ import java.util.*
 
 
 @RestController
+@RequestMapping("/api")
 class SmokerResource {
 
     @Autowired

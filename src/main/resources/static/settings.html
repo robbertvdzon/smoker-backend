@@ -9,7 +9,7 @@
         var userId = "";
 
         function load(){
-            $.ajax({url: "getstatus", dataType: "json", success: function(result){
+            $.ajax({url: "api/getstatus", dataType: "json", success: function(result){
                 var username = result.username;
                 var authenticated = result.authenticated;
                 userId = result.userid;
@@ -26,7 +26,7 @@
 
         function setAuth(){
             var key = $('#uploadAuthKey').val();
-            $.ajax({url: "/setAuthKey?key="+key, dataType: "json", success: function(result){
+            $.ajax({url: "/api/setAuthKey?key="+key, dataType: "json", success: function(result){
                 load();
             }});
         }

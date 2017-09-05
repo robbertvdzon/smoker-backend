@@ -27,7 +27,7 @@
         }
 
         function loadCurrentStatus(){
-            $.ajax({url: "getlast?userid="+userID, dataType: "json", success: function(result){
+            $.ajax({url: "api/getlast?userid="+userID, dataType: "json", success: function(result){
                 var temp = result.temp;
                 var sturing = result.sturing;
                 $('#currentState').html("Huidige temp: "+temp+" graden, zuurstofdoorvoer op "+sturing+"%");
@@ -37,7 +37,7 @@
         function getData() {
             var jsonArrayData = [];
             var jsonData = $.ajax({
-                url: "getall?userid="+userID+"&range="+range,
+                url: "api/getall?userid="+userID+"&range="+range,
                 dataType: "json",
                 async: false
             }).responseText;
