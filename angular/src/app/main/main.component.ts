@@ -10,11 +10,17 @@ import {hasModifier} from "tslint";
 export class MainComponent implements OnInit {
   constructor(private smokerserviceService:SmokerserviceService ) { }
   test:String;
+  version:String;
+  profiel:String;
+  username:String;
 
   ngOnInit() {
     this.smokerserviceService.getText().subscribe(data => {
       // Read the result field from the JSON response.
-      this.test = "bla"+ data['version'];
+      this.test = ""+ data['version'];
+      this.username = ""+ data['username'];
+      this.version = ""+ data['version'];
+      this.profiel = ""+ data['profiel'];
       // this.test = "bla";
     });
   }
