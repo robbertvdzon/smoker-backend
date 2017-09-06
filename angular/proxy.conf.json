@@ -4,12 +4,6 @@
     "target": "localhost:8080",
     "secure": false,
     "changeOrigin": true
-  },
-
-  "/connect": {
-    "target": "localhost:8080",
-    "secure": false,
-    "changeOrigin": true
   }
 
 }
