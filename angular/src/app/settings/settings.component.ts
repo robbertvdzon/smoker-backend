@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {SmokerserviceService} from "../smokerservice.service";
 
 @Component({
   selector: 'app-settings',
@@ -6,10 +7,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
+  constructor(private smokerserviceService:SmokerserviceService ) { }
+  test:String;
+  version:String;
+  profiel:String;
+  username:String;
+  uploadAuthKey: String;
 
-  constructor() { }
 
   ngOnInit() {
-  }
+    this.smokerserviceService.getText().subscribe(data => {
+      // Read the result field from the JSON response.
+      this.test = "" + data['version'];
+      this.username = "" + data['username'];
+      this.version = "" + data['version'];
+      this.profiel = "" + data['profiel'];
+      this.uploadAuthKey= "" + data['user']['uploadAuthKey'];
 
+      // this.test = "bla";
+    });
+  }
 }

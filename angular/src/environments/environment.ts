@@ -5,5 +5,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'assets/getstatus.json'
+  getStatusUrl: 'assets/getstatus_loggedin.json',
+  getAllUrl: 'assets/getall.json',
+  getLastUrl: 'assets/getlast.json'
 };

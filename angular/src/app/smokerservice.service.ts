@@ -10,7 +10,7 @@ export class SmokerserviceService {
 
 
   public getText():Observable<Object> {
-    return this.http.get(environment.apiUrl);
+    return this.http.get(environment.getStatusUrl);
 
   }
 }

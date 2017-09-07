@@ -1,0 +1,12 @@
+{
+  "userid": "1695019767217528",
+  "username": "Robbert",
+  "authenticated": true,
+  "version": "0.1.16",
+  "profiel": "Test",
+  "user": {
+    "id": "8e0ac755-99cd-48dd-8e42-9b39a69b01e5",
+    "userid": "1695019767217528",
+    "uploadAuthKey": "123"
+  }
+}

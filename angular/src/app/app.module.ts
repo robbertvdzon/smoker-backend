@@ -12,7 +12,7 @@ import {HttpClientModule} from "@angular/common/http";
 
 const appRoutes: Routes = [
   { path: 'settings', component: SettingsComponent },
-  { path: 'grafiek', component: GrafiekComponent },
+  { path: 'grafiek/:id', component: GrafiekComponent },
   { path: 'main', component: MainComponent }
   ,
   { path: '',

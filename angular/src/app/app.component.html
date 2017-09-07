@@ -1,10 +1,13 @@
+Robbert's BBQ temperatuur log, versie: {{version}} {{profiel}}, Gebruiker: {{username}}
+<form action="/connect/facebook" method="POST">
+  <button type="submit">Verbind met Facebook</button>
+</form>
 
-<a routerLink='main'>main</a>
-<br>
-<a routerLink='grafiek'>grafiek</a>
-<br>
-<a routerLink='settings'>settings</a>
-<br>
+<img (click)="main()" src="assets/home.jpg" width="50">
+<img (click)="settings()" src="assets/settings.png" width="50" >
+<img (click)="grafiek()" src="assets/grafiek.jpg" width="50" >
 
+
+<hr>
 
 <router-outlet></router-outlet>
