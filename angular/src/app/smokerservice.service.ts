@@ -13,4 +13,16 @@ export class SmokerserviceService {
     return this.http.get(environment.getStatusUrl);
 
   }
+
+  setAuth(uploadAuthKey: String) {
+    const req = this.http.get(environment.putAuthKey+"?key="+uploadAuthKey)
+      .subscribe(
+        res => {
+          console.log(res);
+        },
+        err => {
+          console.log("Error occured");
+        }
+      );
+  }
 }

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {SmokerserviceService} from "../smokerservice.service";
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-settings',
@@ -10,9 +11,9 @@ export class SettingsComponent implements OnInit {
   constructor(private smokerserviceService:SmokerserviceService ) { }
   test:String;
   version:String;
-  profiel:String;
+  profiel
   username:String;
-  uploadAuthKey: String;
+  @Input() uploadAuthKey: String;
 
 
   ngOnInit() {
@@ -27,4 +28,9 @@ export class SettingsComponent implements OnInit {
       // this.test = "bla";
     });
   }
+
+  setAuth():void{
+    this.smokerserviceService.setAuth(this.uploadAuthKey);
+  }
+
 }

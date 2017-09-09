@@ -41,4 +41,8 @@ export class AppComponent {
     });
   }
 
+  connectToFacebook() {
+    this.router.navigate(['settings']);
+
+  }
 }

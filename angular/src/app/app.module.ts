@@ -9,6 +9,7 @@ import { NotfoundComponent } from './notfound/notfound.component';
 import { RouterModule, Routes } from '@angular/router';
 import {SmokerserviceService} from "./smokerservice.service";
 import {HttpClientModule} from "@angular/common/http";
+import { FormsModule } from '@angular/forms';
 
 const appRoutes: Routes = [
   { path: 'settings', component: SettingsComponent },
@@ -37,7 +38,8 @@ const appRoutes: Routes = [
       { useHash:true, enableTracing: true } // <-- debugging purposes only
     ),
     HttpClientModule,
-    BrowserModule
+    BrowserModule,
+    FormsModule
   ],
   providers: [SmokerserviceService],
   bootstrap: [AppComponent]

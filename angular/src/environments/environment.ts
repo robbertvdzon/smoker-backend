@@ -6,6 +6,7 @@
 export const environment = {
   production: false,
   getStatusUrl: 'assets/getstatus_loggedin.json',
+  putAuthKey: 'api/setAuthKey',
   getAllUrl: 'assets/getall.json',
   getLastUrl: 'assets/getlast.json'
 };
