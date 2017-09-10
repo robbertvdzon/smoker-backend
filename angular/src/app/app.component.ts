@@ -31,7 +31,7 @@ export class AppComponent {
 
 
   ngOnInit() {
-    this.smokerserviceService.getText().subscribe(data => {
+    this.smokerserviceService.getStatus().subscribe(data => {
       // Read the result field from the JSON response.
       this.id= "" + data['userid'];
       this.username = ""+ data['username'];

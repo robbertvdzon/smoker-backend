@@ -15,7 +15,7 @@ export class MainComponent implements OnInit {
   username:String;
 
   ngOnInit() {
-    this.smokerserviceService.getText().subscribe(data => {
+    this.smokerserviceService.getStatus().subscribe(data => {
       // Read the result field from the JSON response.
       this.test = ""+ data['version'];
       this.username = ""+ data['username'];

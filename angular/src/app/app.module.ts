@@ -10,6 +10,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {SmokerserviceService} from "./smokerservice.service";
 import {HttpClientModule} from "@angular/common/http";
 import { FormsModule } from '@angular/forms';
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
 const appRoutes: Routes = [
   { path: 'settings', component: SettingsComponent },
@@ -39,7 +40,8 @@ const appRoutes: Routes = [
     ),
     HttpClientModule,
     BrowserModule,
-    FormsModule
+    FormsModule,
+    Ng2GoogleChartsModule
   ],
   providers: [SmokerserviceService],
   bootstrap: [AppComponent]

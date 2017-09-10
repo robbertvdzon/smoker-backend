@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {SmokerserviceService} from "../smokerservice.service";
-import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-settings',
@@ -17,7 +16,7 @@ export class SettingsComponent implements OnInit {
 
 
   ngOnInit() {
-    this.smokerserviceService.getText().subscribe(data => {
+    this.smokerserviceService.getStatus().subscribe(data => {
       // Read the result field from the JSON response.
       this.test = "" + data['version'];
       this.username = "" + data['username'];

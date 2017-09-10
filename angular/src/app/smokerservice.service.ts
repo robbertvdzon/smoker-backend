@@ -9,8 +9,13 @@ export class SmokerserviceService {
   constructor(private http: HttpClient) { }
 
 
-  public getText():Observable<Object> {
+  public getStatus():Observable<Object> {
     return this.http.get(environment.getStatusUrl);
+
+  }
+
+  public getAll():Observable<Object> {
+    return this.http.get(environment.getAllUrl);
 
   }
 
