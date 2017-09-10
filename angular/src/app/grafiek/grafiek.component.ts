@@ -9,18 +9,17 @@ import {SmokerserviceService} from "../smokerservice.service";
 })
 export class GrafiekComponent implements OnInit {
   id: number;
-  smokerData:any;
   pieChartData =  {
-    chartType: 'PieChart',
-    dataTable: [
-      ['Task', 'Hours per Day'],
-      ['Work',     11],
-      ['Eat',      2],
-      ['Commute',  2],
-      ['Watch TV', 2],
-      ['Sleep',    7]
-    ],
-    options: {'title': 'Tasks'},
+    chartType: 'LineChart',
+    dataTable: [],
+    options:
+      {
+        title: 'Smoker',
+        curveType: 'function',
+        hAxis: {title: 'Tijd',
+        slantedText:true, slantedTextAngle:80},
+        vAxis: {minValue: 80},
+      }
   };
 
   constructor(private route: ActivatedRoute, private smokerserviceService:SmokerserviceService) { }
@@ -34,7 +33,12 @@ export class GrafiekComponent implements OnInit {
 
   private loadGrafiek() {
     this.smokerserviceService.getAll().subscribe(data => {
-      this.smokerData= data;
+      let smokerData:any[] = <Array<any>>data;
+      this.pieChartData.dataTable=[];
+      this.pieChartData.dataTable.push(['Tijd', 'Temp', 'Fan'])
+      for (var i=0; i<smokerData.length; i++){
+        this.pieChartData.dataTable.push([new Date(smokerData[i].date), smokerData[i].temp, smokerData[i].sturing]);
+      }
     });
   }
 }
