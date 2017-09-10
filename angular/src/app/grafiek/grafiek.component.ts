@@ -26,7 +26,7 @@ export class GrafiekComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.userId = params['userId'];
+      this.userId = params['id'];
       this.loadGrafiek("2 uur");
     });
   }
