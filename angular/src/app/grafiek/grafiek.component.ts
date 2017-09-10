@@ -8,7 +8,7 @@ import {SmokerserviceService} from "../smokerservice.service";
   styleUrls: ['./grafiek.component.scss']
 })
 export class GrafiekComponent implements OnInit {
-  id: number;
+  userId: String;
   pieChartData =  {
     chartType: 'LineChart',
     dataTable: [],
@@ -26,13 +26,13 @@ export class GrafiekComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.id = +params['id']; // (+) converts string 'id' to a number
-      this.loadGrafiek();
+      this.userId = params['userId'];
+      this.loadGrafiek("2 uur");
     });
   }
 
-  private loadGrafiek() {
-    this.smokerserviceService.getAll().subscribe(data => {
+  private loadGrafiek(range:String) {
+    this.smokerserviceService.getAll(this.userId, range).subscribe(data => {
       let smokerData:any[] = <Array<any>>data;
       this.pieChartData.dataTable=[];
       this.pieChartData.dataTable.push(['Tijd', 'Temp', 'Fan'])
@@ -40,5 +40,10 @@ export class GrafiekComponent implements OnInit {
         this.pieChartData.dataTable.push([new Date(smokerData[i].date), smokerData[i].temp, smokerData[i].sturing]);
       }
     });
+  }
+
+  setPlan(value) {
+    //if you're on older versions of ES, use for-in instead
+    this.loadGrafiek(value);
   }
 }

@@ -14,9 +14,8 @@ export class SmokerserviceService {
 
   }
 
-  public getAll():Observable<Object> {
-    return this.http.get(environment.getAllUrl);
-
+  public getAll(userid:String, range:String):Observable<Object> {
+    return this.http.get(environment.getAllUrl+"?userid="+userid+"&range="+range);
   }
 
   setAuth(uploadAuthKey: String) {
