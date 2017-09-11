@@ -41,7 +41,7 @@ export class GrafiekComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.userId = params['id']; // (+) converts string 'id' to a number
-      this.loadGrafiek("2 uur");
+      this.loadGrafiek("2uur");
     });
   }
 
@@ -53,7 +53,7 @@ export class GrafiekComponent implements OnInit {
     this.smokerserviceService.getAll(this.userId, range).subscribe(data => {
       let smokerData:any[] = <Array<any>>data;
 
-
+      this.dataTable = [];
       if (this.dataTable.length==0) {
         this.dataTable.push(['Tijd', 'Temp', 'Fan']);
       }

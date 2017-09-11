@@ -2,7 +2,7 @@
 
 cd angular
 #npm install
-ng build env=prod
+ng build -prod
 
 cd ..
 mvn install
