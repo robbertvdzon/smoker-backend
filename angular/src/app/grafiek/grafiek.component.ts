@@ -9,16 +9,44 @@ import {SmokerserviceService} from "../smokerservice.service";
 })
 export class GrafiekComponent implements OnInit {
   userId: String;
+  smokerData:any;
   dataTable: any[] = [];
-  pieChartData =  {};
+  pieChartData =  {
+    chartType: 'PieChart',
+    dataTable: [
+      ['Task', 'Hours per Day'],
+      ['Work',     11],
+      ['Eat',      2],
+      ['Commute',  2],
+      ['Watch TV', 2],
+      ['Sleep',    7]
+    ],
+    options: {'title': 'Tasks'},
+  };
+  chartData =  {
+    chartType: 'LineChart',
+    dataTable: [],
+    options:
+      {
+        title: 'Smoker',
+        curveType: 'function',
+        hAxis: {title: 'Tijd',
+          slantedText:true, slantedTextAngle:80},
+        vAxis: {minValue: 80},
+      }
+  };
 
   constructor(private route: ActivatedRoute, private smokerserviceService:SmokerserviceService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.userId = params['id'];
+      this.userId = params['id']; // (+) converts string 'id' to a number
       this.loadGrafiek("2 uur");
     });
+  }
+
+  setPlan(value) {
+    this.loadGrafiek(value);
   }
 
   private loadGrafiek(range:String) {
@@ -30,10 +58,10 @@ export class GrafiekComponent implements OnInit {
         this.dataTable.push(['Tijd', 'Temp', 'Fan']);
       }
       for (var i=0; i<smokerData.length; i++){
-        this.dataTable.push([new Date(smokerData[i].date), smokerData[i].temp, smokerData[i].sturing]);
+        this.dataTable.push([this.dataTable.length, smokerData[i].temp, smokerData[i].sturing]);
       }
 
-      this.pieChartData =  {
+      this.chartData =  {
         chartType: 'LineChart',
         dataTable: this.dataTable,
         options:
@@ -48,9 +76,5 @@ export class GrafiekComponent implements OnInit {
 
 
     });
-  }
-
-  setPlan(value) {
-    this.loadGrafiek(value);
   }
 }

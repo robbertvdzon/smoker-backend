@@ -1,7 +1,7 @@
 #/bin/bash
 
 cd angular
-npm install
+#npm install
 ng build env=prod
 
 cd ..
