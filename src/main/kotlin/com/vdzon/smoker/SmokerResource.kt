@@ -34,10 +34,10 @@ class SmokerResource {
     }
 
     @RequestMapping("/getlast")
-    private fun getLastSample(@RequestParam(value = "userid") userid: String): SmokerLogDto {
+    private fun getLastSample(@RequestParam(value = "userid") userid: String): SmokerLogDto? {
         println("get last, userid="+userid)
         val lastLog = smokerLogDao!!.getLastSample(userid)
-        val lastLogDto = SmokerLogDto.fromSmokerLog(lastLog)!!
+        val lastLogDto = if (lastLog==null) null else SmokerLogDto.fromSmokerLog(lastLog)!!
         return lastLogDto
     }
 
@@ -65,17 +65,19 @@ class SmokerResource {
         return primaryConnection?.api.fetchObject("me", User::class.java, *fields)
     }
 
-    data class Status(val userid: String?,val username: String?,val authenticated: Boolean, val version:String?, val profiel:String?, val user:SmokerUser?)
+    data class Status(val userid: String?,val username: String?,val authenticated: Boolean, val version:String?, val profiel:String?, val user:SmokerUser?, val lastTemp: Int?)
     @RequestMapping("/getstatus")
     fun getstatus(): Status {
         val user: User? = user();
         val smokerUser:SmokerUser? = if (user==null) null else findOrCreateUser(user.id)
+        val lastSample = if (user==null) null else getLastSample(user.id)
         return Status(username = user?.firstName,
                 userid = user?.id,
                 authenticated = user!=null,
                 version = smokerProperties!!.buildVersion,
                 profiel =  smokerProperties!!.configuratieProfiel,
-                user = smokerUser
+                user = smokerUser,
+                lastTemp = lastSample?.temp
         )
     }
 

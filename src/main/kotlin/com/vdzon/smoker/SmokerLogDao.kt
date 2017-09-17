@@ -92,7 +92,8 @@ class SmokerLogDao(
          */
         val (startTime: Date, endTime: Date) = transformDate("2uur")
         if (userID.isEmpty()) return null;
-        return smokerlogRepository!!.findByDateBetween(userID, startTime, endTime, Sort(Sort.Direction.DESC, "date"))!!.get(0)
+        val last2Hours = smokerlogRepository!!.findByDateBetween(userID, startTime, endTime, Sort(Sort.Direction.DESC, "date"))
+        return if (last2Hours.size == 0) null else last2Hours.get(0);
 //        return smokerlogRepository!!.findAll().get(0)
 //        return smokerlogRepository!!.findFirst(Sort(Sort.Direction.DESC, "date"));
     }

@@ -11,6 +11,7 @@ import {Router} from "@angular/router";
 export class MainComponent implements OnInit {
   constructor(private router: Router, private smokerserviceService:SmokerserviceService ) { }
   id:String;
+  currentTemp:String = "?";
   test:String;
   version:String;
   profiel:String;
@@ -34,6 +35,7 @@ export class MainComponent implements OnInit {
   dataTable: any[] = [];
 
   ngOnInit() {
+    // Deze call zou helemaal niet nodig moeten zijn! We hebben het id al!
     this.smokerserviceService.getStatus().subscribe(data => {
       // Read the result field from the JSON response.
       this.test = ""+ data['version'];
@@ -42,10 +44,11 @@ export class MainComponent implements OnInit {
       this.profiel = ""+ data['profiel'];
       this.id= "" + data['userid'];
       this.loggedIn = this.username!="null";
+      this.currentTemp = ""+ data['lastTemp']; // deze laad ik ook al in de loadState call!
 
       this.loadGrafiek("2uur");
-      // this.test = "bla";
     });
+    setInterval(()=>{this.loadState();},4000);
   }
 
 
@@ -74,10 +77,15 @@ export class MainComponent implements OnInit {
             legend: 'none'
           }
       };
-
-
     });
   }
+
+  private loadState() {
+    this.smokerserviceService.getStatus().subscribe(data => {
+      this.currentTemp = ""+ data['lastTemp'];
+    });
+  }
+
 
   grafiek():void{
     this.router.navigate(['grafiek',this.id]);
@@ -86,4 +94,5 @@ export class MainComponent implements OnInit {
   settings():void{
     this.router.navigate(['settings']);
   }
+
 }
