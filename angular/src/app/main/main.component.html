@@ -12,10 +12,14 @@
   <table width="100%">
     <tr>
       <td valign="top" colspan="2" align="center">
-
         <span class="currenttemp">{{currentTemp}} graden</span>
         <br><br>
-        [-10] [-5] Instelling:120 graden [+5] [+10]<br>
+        <span (click)="min10()">[-10]</span>
+        <span (click)="min5()">[-5]</span>
+        Instelling:{{requiredTemp}} graden
+        <span (click)="plus5()">[+5]</span>
+        <span (click)="plus10()">[+10]</span>
+        <br>
         <br><br>
         <a (click)="settings()"> [meer instellingen]</a>
       </td>

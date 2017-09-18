@@ -12,6 +12,7 @@ export class MainComponent implements OnInit {
   constructor(private router: Router, private smokerserviceService:SmokerserviceService ) { }
   id:String;
   currentTemp:String = "?";
+  requiredTemp:String = "?";
   test:String;
   version:String;
   profiel:String;
@@ -126,6 +127,7 @@ export class MainComponent implements OnInit {
   private loadState() {
     this.smokerserviceService.getStatus().subscribe(data => {
       this.currentTemp = ""+ data['lastTemp'];
+      this.requiredTemp = ""+ data['requiredTemp'];
     });
   }
 
@@ -136,6 +138,26 @@ export class MainComponent implements OnInit {
 
   settings():void{
     this.router.navigate(['settings']);
+  }
+
+  addRequiredTemp(add:number){
+    this.smokerserviceService.addRequiredTemp(add).subscribe(data => {
+      this.requiredTemp = ""+ data['requiredTemp'];
+
+    });
+  }
+
+  min5():void{
+    this.addRequiredTemp(-5);
+  }
+  min10():void{
+    this.addRequiredTemp(-5);
+  }
+  plus10():void{
+    this.addRequiredTemp(10);
+  }
+  plus5():void{
+    this.addRequiredTemp(5);
   }
 
 }

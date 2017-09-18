@@ -4,5 +4,7 @@
   "authenticated": false,
   "version": "0.123",
   "profiel": "Dev",
-  "user": null
+  "user": null,
+  "lastTemp": 22,
+  "requiredTemp": 112
 }

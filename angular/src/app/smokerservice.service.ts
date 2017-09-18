@@ -29,4 +29,8 @@ export class SmokerserviceService {
         }
       );
   }
+
+  addRequiredTemp(add: number): Observable<Object> {
+    return this.http.get(environment.getAddRequiredTempUrl+"?add="+add);
+  }
 }

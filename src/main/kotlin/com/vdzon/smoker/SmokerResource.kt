@@ -14,11 +14,13 @@ import java.util.*
 @RequestMapping("/api")
 class SmokerResource {
 
-    @Autowired
-    val smokerLogDao: SmokerLogDao? = null;
+    var requiredTemp: Int = 90
 
     @Autowired
-    val userDao: UserDao? = null;
+    val smokerLogDao: SmokerLogDao? = null
+
+    @Autowired
+    val userDao: UserDao? = null
 
     @Autowired
     private val connectionRepository: ConnectionRepository? = null
@@ -65,7 +67,7 @@ class SmokerResource {
         return primaryConnection?.api.fetchObject("me", User::class.java, *fields)
     }
 
-    data class Status(val userid: String?,val username: String?,val authenticated: Boolean, val version:String?, val profiel:String?, val user:SmokerUser?, val lastTemp: Int?)
+    data class Status(val userid: String?,val username: String?,val authenticated: Boolean, val version:String?, val profiel:String?, val user:SmokerUser?, val lastTemp: Int?, val requiredTemp: Int?)
     @RequestMapping("/getstatus")
     fun getstatus(): Status {
         val user: User? = user();
@@ -77,7 +79,8 @@ class SmokerResource {
                 version = smokerProperties!!.buildVersion,
                 profiel =  smokerProperties!!.configuratieProfiel,
                 user = smokerUser,
-                lastTemp = lastSample?.temp
+                lastTemp = lastSample?.temp,
+                requiredTemp = requiredTemp
         )
     }
 
@@ -91,6 +94,16 @@ class SmokerResource {
             userDao!!.save(newSmokerUser)
         }
     }
+
+
+    data class AddTempStatus(val requiredTemp: Int?)
+    @RequestMapping("/addreqtemp")
+    fun addReqTemp(@RequestParam(value = "add") add: Int):AddTempStatus {
+        requiredTemp+=add;
+        return AddTempStatus(requiredTemp);
+    }
+
+
 
 
 }
