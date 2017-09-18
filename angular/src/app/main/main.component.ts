@@ -18,7 +18,7 @@ export class MainComponent implements OnInit {
   username:String;
   loggedIn:Boolean;
 
-  chartData =  {
+  chartData2Uur =  {
     chartType: 'LineChart',
     dataTable: [],
     options:
@@ -31,8 +31,22 @@ export class MainComponent implements OnInit {
         legend: 'none'
       }
   };
+  chartData8Uur =  {
+    chartType: 'LineChart',
+    dataTable: [],
+    options:
+      {
+        title: 'Laatste 8 uur',
+        curveType: 'function',
+        hAxis: {title: 'Tijd',
+          slantedText:true, slantedTextAngle:80},
+        vAxis: {minValue: 80},
+        legend: 'none'
+      }
+  };
   smokerData:any;
   dataTable: any[] = [];
+  dataTable8uur: any[] = [];
 
   ngOnInit() {
     // Deze call zou helemaal niet nodig moeten zijn! We hebben het id al!
@@ -47,6 +61,7 @@ export class MainComponent implements OnInit {
       this.currentTemp = ""+ data['lastTemp']; // deze laad ik ook al in de loadState call!
 
       this.loadGrafiek("2uur");
+      this.loadGrafiek8Uur();
     });
     setInterval(()=>{this.loadState();},4000);
   }
@@ -64,12 +79,40 @@ export class MainComponent implements OnInit {
         this.dataTable.push([this.dataTable.length, smokerData[i].temp]);
       }
 
-      this.chartData =  {
+      this.chartData2Uur =  {
         chartType: 'LineChart',
         dataTable: this.dataTable,
         options:
           {
             title: 'Laatste 2 uur',
+            curveType: 'function',
+            hAxis: {title: 'Tijd',
+              slantedText:false, slantedTextAngle:80},
+            vAxis: {minValue: 80},
+            legend: 'none'
+          }
+      };
+    });
+  }
+
+  private loadGrafiek8Uur() {
+    this.smokerserviceService.getAll(this.id, "8uur").subscribe(data => {
+      let smokerData:any[] = <Array<any>>data;
+
+      this.dataTable8uur = [];
+      if (this.dataTable8uur.length==0) {
+        this.dataTable8uur.push(['Tijd', 'Temp']);
+      }
+      for (var i=0; i<smokerData.length; i++){
+        this.dataTable8uur.push([this.dataTable8uur.length, smokerData[i].temp]);
+      }
+
+      this.chartData8Uur =  {
+        chartType: 'LineChart',
+        dataTable: this.dataTable8uur,
+        options:
+          {
+            title: 'Laatste 8 uur',
             curveType: 'function',
             hAxis: {title: 'Tijd',
               slantedText:false, slantedTextAngle:80},

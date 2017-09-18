@@ -8,25 +8,37 @@
 
 
 <div *ngIf="loggedIn">
-  <table>
+
+  <table width="100%">
     <tr>
-      <td valign="top">
-        <google-chart (click)="grafiek()" [data]="chartData" style="width: 100px; height: 100px"></google-chart>
-      </td>
-      <td valign="top">
-        <br>
-        Huidige temp:{{currentTemp}} graden<br>
+      <td valign="top" colspan="2" align="center">
+
+        <span class="currenttemp">{{currentTemp}} graden</span>
         <br><br>
         [-10] [-5] Instelling:120 graden [+5] [+10]<br>
         <br><br>
         <a (click)="settings()"> [meer instellingen]</a>
       </td>
     </tr>
+
+    <tr>
+      <td valign="top" width="50%">
+        <google-chart (click)="grafiek()" [data]="chartData2Uur" style="width: 50px; height: 50px"></google-chart>
+      </td>
+      <td valign="top" width="50%">
+        <google-chart (click)="grafiek()" [data]="chartData8Uur" style="width: 50px; height: 50px"></google-chart>
+      </td>
+    </tr>
+
+    <tr>
+      <td valign="top" colspan="2" align="center">
+        Versie: {{version}}-{{profiel}}, Ingelogd als {{username}}<br>
+      </td>
+    </tr>
+
   </table>
 
 
-    <br><br>
-    Versie: {{version}}-{{profiel}}, Ingelogd als {{username}}<br>
 
 
 </div>
