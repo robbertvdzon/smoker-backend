@@ -59,12 +59,12 @@ export class GrafiekComponent implements OnInit {
         header.push('Temp');
       }
       if (type=="sturing" || type=="beide"){
-        header.push('Fan');
+        header.push('Sturing');
       }
       this.dataTable.push(header);
       for (var i=0; i<smokerData.length; i++){
         let value = [];
-        value.push(this.dataTable.length);
+        value.push(smokerData[i].date);
         if (type=="temp" || type=="beide"){
           value.push(smokerData[i].temp);
         }
