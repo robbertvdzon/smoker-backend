@@ -1,4 +1,3 @@
-{{type}}
 <table width="100%">
   <tr>
     <td align="center">
@@ -11,8 +10,8 @@
         </select>
 
         <select (change)="setType($event.target.value)">
-          <option [ngValue]="temp" value="temp">Temp</option>
-          <option [ngValue]="sturing" value="sturing">Sturing</option>
+          <option value="temp">Temp</option>
+          <option value="sturing">Sturing</option>
           <option value="beide">Beide</option>
         </select>
 
