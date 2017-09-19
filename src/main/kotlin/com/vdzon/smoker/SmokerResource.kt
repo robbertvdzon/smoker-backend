@@ -29,6 +29,13 @@ class SmokerResource {
     @RequestMapping("/getall")
     private fun getAll(@RequestParam(value = "userid") userid: String, @RequestParam(value = "range", defaultValue = "2uur") range: String): List<SmokerLogDto?>? {
         println("get all, userid="+userid)
+        val smokerUser: SmokerUser? = userDao!!.findByUserid(userid)
+        val openbaar = smokerUser?.openbaar?:false
+        if (!openbaar){
+            println("get all, user required")
+            val user: User? = user();
+            if (user==null) throw Exception("Niet ingelogd"); // TODO: geef een unauthorized terug!
+        }
         val findAll = smokerLogDao!!.getRange(userid, range)?.map { SmokerLogDto.fromSmokerLog(it) }
         return findAll
     }
@@ -36,6 +43,13 @@ class SmokerResource {
     @RequestMapping("/getlast")
     private fun getLastSample(@RequestParam(value = "userid") userid: String): SmokerLogDto? {
         println("get last, userid="+userid)
+        val smokerUser: SmokerUser? = userDao!!.findByUserid(userid)
+        val openbaar = smokerUser?.openbaar?:false
+        if (!openbaar){
+            println("get all, user required")
+            val user: User? = user();
+            if (user==null) throw Exception("Niet ingelogd"); // TODO: geef een unauthorized terug!
+        }
         val lastLog = smokerLogDao!!.getLastSample(userid)
         val lastLogDto = if (lastLog==null) null else SmokerLogDto.fromSmokerLog(lastLog)!!
         return lastLogDto
