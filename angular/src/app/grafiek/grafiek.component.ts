@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {SmokerserviceService} from "../smokerservice.service";
 
@@ -11,6 +11,8 @@ export class GrafiekComponent implements OnInit {
   userId: String;
   smokerData:any;
   dataTable: any[] = [];
+  selectedRange="2uur";
+  selectedType="temp";
 
   chartData =  {
     chartType: 'LineChart',
@@ -30,24 +32,46 @@ export class GrafiekComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.userId = params['id']; // (+) converts string 'id' to a number
-      this.loadGrafiek("2uur");
+      this.loadGrafiek();
     });
   }
 
   setPlan(value) {
-    this.loadGrafiek(value);
+    this.selectedRange=value;
+    this.loadGrafiek();
   }
 
-  private loadGrafiek(range:String) {
+  setType(type) {
+    this.selectedType=type;
+    this.loadGrafiek();
+  }
+
+  private loadGrafiek() {
+    let range = this.selectedRange;
     this.smokerserviceService.getAll(this.userId, range).subscribe(data => {
       let smokerData:any[] = <Array<any>>data;
+      let type = this.selectedType;
 
       this.dataTable = [];
-      if (this.dataTable.length==0) {
-        this.dataTable.push(['Tijd', 'Temp', 'Fan']);
+      let header = [];
+      header.push('Tijd');
+      if (type=="temp" || type=="beide"){
+        header.push('Temp');
       }
+      if (type=="sturing" || type=="beide"){
+        header.push('Fan');
+      }
+      this.dataTable.push(header);
       for (var i=0; i<smokerData.length; i++){
-        this.dataTable.push([this.dataTable.length, smokerData[i].temp, smokerData[i].sturing]);
+        let value = [];
+        value.push(this.dataTable.length);
+        if (type=="temp" || type=="beide"){
+          value.push(smokerData[i].temp);
+        }
+        if (type=="sturing" || type=="beide"){
+          value.push(smokerData[i].sturing);
+        }
+        this.dataTable.push(value);
       }
 
       this.chartData =  {
