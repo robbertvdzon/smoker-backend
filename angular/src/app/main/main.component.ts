@@ -60,6 +60,7 @@ export class MainComponent implements OnInit {
       this.id= "" + data['userid'];
       this.loggedIn = this.username!="null";
       this.currentTemp = ""+ data['lastTemp']; // deze laad ik ook al in de loadState call!
+      this.requiredTemp = ""+ data['requiredTemp'];
 
       this.loadGrafiek("2uur");
       this.loadGrafiek8Uur();

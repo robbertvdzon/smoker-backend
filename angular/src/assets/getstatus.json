@@ -6,5 +6,7 @@
   "profiel": "Dev",
   "user": null,
   "lastTemp": 22,
-  "requiredTemp": 112
+  "requiredTemp": null,
+  "openbaar": null
+
 }

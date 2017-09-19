@@ -14,8 +14,6 @@ import java.util.*
 @RequestMapping("/api")
 class SmokerResource {
 
-    var requiredTemp: Int = 90
-
     @Autowired
     val smokerLogDao: SmokerLogDao? = null
 
@@ -56,7 +54,7 @@ class SmokerResource {
     fun findOrCreateUser(id:String):SmokerUser{
         val smokerUser: SmokerUser? = userDao!!.findByUserid(id)
         if (smokerUser!=null) return smokerUser;
-        val newSmokerUser: SmokerUser = SmokerUser(userid = id, uploadAuthKey = UUID.randomUUID().toString());
+        val newSmokerUser: SmokerUser = SmokerUser(userid = id, uploadAuthKey = UUID.randomUUID().toString(), openbaar = false, requiredTemp = 110);
         return userDao!!.save(newSmokerUser)
     }
 
@@ -67,7 +65,7 @@ class SmokerResource {
         return primaryConnection?.api.fetchObject("me", User::class.java, *fields)
     }
 
-    data class Status(val userid: String?,val username: String?,val authenticated: Boolean, val version:String?, val profiel:String?, val user:SmokerUser?, val lastTemp: Int?, val requiredTemp: Int?)
+    data class Status(val userid: String?,val username: String?,val authenticated: Boolean, val version:String?, val profiel:String?, val user:SmokerUser?, val lastTemp: Int?, val requiredTemp: Int?, val openbaar: Boolean?)
     @RequestMapping("/getstatus")
     fun getstatus(): Status {
         val user: User? = user();
@@ -80,17 +78,18 @@ class SmokerResource {
                 profiel =  smokerProperties!!.configuratieProfiel,
                 user = smokerUser,
                 lastTemp = lastSample?.temp,
-                requiredTemp = requiredTemp
+                requiredTemp = smokerUser?.requiredTemp,
+                openbaar = smokerUser?.openbaar
         )
     }
 
-    @RequestMapping("/setAuthKey")
-    fun setAuthKey(@RequestParam(value = "key") authKey: String) {
+    @RequestMapping("/setSettings")
+    fun setSettings(@RequestParam(value = "key") authKey: String, @RequestParam(value = "openbaar") openbaar: Boolean) {
         val user: User? = user();
         // TODO: geef een unauthorized terug als er geen user is
         if (user!=null) {
             val smokerUser: SmokerUser = findOrCreateUser(user.id)
-            val newSmokerUser: SmokerUser = smokerUser.copy(uploadAuthKey = authKey)
+            val newSmokerUser: SmokerUser = smokerUser.copy(uploadAuthKey = authKey, openbaar = openbaar)
             userDao!!.save(newSmokerUser)
         }
     }
@@ -99,8 +98,15 @@ class SmokerResource {
     data class AddTempStatus(val requiredTemp: Int?)
     @RequestMapping("/addreqtemp")
     fun addReqTemp(@RequestParam(value = "add") add: Int):AddTempStatus {
-        requiredTemp+=add;
-        return AddTempStatus(requiredTemp);
+        val user: User? = user();
+        // TODO: geef een unauthorized terug als er geen user is
+        if (user!=null) {
+            val smokerUser: SmokerUser = findOrCreateUser(user.id)
+            val newSmokerUser: SmokerUser = smokerUser.copy(requiredTemp = (smokerUser.requiredTemp?:0)+add)
+            userDao!!.save(newSmokerUser)
+            return AddTempStatus(newSmokerUser.requiredTemp);
+        }
+        return AddTempStatus(0);
     }
 
 

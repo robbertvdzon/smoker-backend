@@ -9,5 +9,7 @@ data class SmokerUser(
         @Id
         val id: UUID = UUID.randomUUID(),
         val userid: String,
-        val uploadAuthKey: String
+        val uploadAuthKey: String,
+        val openbaar: Boolean?,
+        val requiredTemp: Int?
 )

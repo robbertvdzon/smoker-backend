@@ -13,6 +13,7 @@ export class SettingsComponent implements OnInit {
   profiel
   username:String;
   @Input() uploadAuthKey: String;
+  @Input() openbaar: Boolean;
 
 
   ngOnInit() {
@@ -22,6 +23,7 @@ export class SettingsComponent implements OnInit {
       this.username = "" + data['username'];
       this.version = "" + data['version'];
       this.profiel = "" + data['profiel'];
+      this.openbaar = data['openbaar'];
       this.uploadAuthKey= "" + data['user']['uploadAuthKey'];
 
       // this.test = "bla";
@@ -29,7 +31,7 @@ export class SettingsComponent implements OnInit {
   }
 
   setAuth():void{
-    this.smokerserviceService.setAuth(this.uploadAuthKey);
+    this.smokerserviceService.setSettings(this.uploadAuthKey, this.openbaar);
   }
 
 }

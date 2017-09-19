@@ -2,7 +2,7 @@ export const environment = {
   production: true,
   getStatusUrl: 'api/getstatus',
   getAddRequiredTempUrl: 'api/addreqtemp',
-  putAuthKey: 'api/setAuthKey',
+  putSettings: 'api/setSettings',
   getAllUrl: 'api/getall',
   getLastUrl: 'api/getlast'
 

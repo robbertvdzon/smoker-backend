@@ -18,8 +18,8 @@ export class SmokerserviceService {
     return this.http.get(environment.getAllUrl+"?userid="+userid+"&range="+range);
   }
 
-  setAuth(uploadAuthKey: String) {
-    const req = this.http.get(environment.putAuthKey+"?key="+uploadAuthKey)
+  setSettings(uploadAuthKey: String, openbaar: Boolean) {
+    const req = this.http.get(environment.putSettings+"?key="+uploadAuthKey+"&openbaar="+openbaar)
       .subscribe(
         res => {
           console.log(res);

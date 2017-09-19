@@ -8,7 +8,7 @@ export const environment = {
   getStatusUrl: 'assets/getstatus_loggedin.json',
   // getStatusUrl: 'assets/getstatus.json',
   getAddRequiredTempUrl: 'assets/getaddreqtemp.json',
-  putAuthKey: 'api/setAuthKey',
+  putSettings: 'api/setSettings',
   getAllUrl: 'assets/getall.json',
   getLastUrl: 'assets/getlast.json'
 };

@@ -1,7 +1,21 @@
-
-Gebruiker: {{username}}<br>
-Upload auth key:<input type="text" [(ngModel)]="uploadAuthKey" >
-<button (click)="setAuth()">Set auth</button><br>
+<table>
+  <tr>
+    <td>Gebruiker</td>
+    <td>:</td>
+    <td>{{username}}</td>
+  </tr>
+  <tr>
+    <td>Upload auth key</td>
+    <td>:</td>
+    <td><input type="text" [(ngModel)]="uploadAuthKey" ></td>
+  </tr>
+  <tr>
+    <td>Openbaar:</td>
+    <td>:</td>
+    <td><input type="checkbox" [(ngModel)]="openbaar"></td>
+  </tr>
+</table>
 <br>
-
-<a routerLink="/main" ><img src="assets/goBack.png" width="150"></a>
+<hr>
+<a routerLink="/main" ><img src="assets/button_terug.png" ></a>
+<img (click)="setAuth()" src="assets/button_opslaan.png" >

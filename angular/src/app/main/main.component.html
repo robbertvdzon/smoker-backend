@@ -2,7 +2,7 @@
   <br>
 
 <form ngNoForm action="/connect/facebook" method="POST">
-  <button type="submit">Verbind met Facebook</button>
+  <input type="image" src="assets/button_login-via-facebook.png">
 </form>
 </div>
 
@@ -13,15 +13,16 @@
     <tr>
       <td valign="top" colspan="2" align="center">
         <span class="currenttemp">{{currentTemp}} graden</span>
-        <br><br>
-        <span (click)="min10()">[-10]</span>
-        <span (click)="min5()">[-5]</span>
-        Instelling:{{requiredTemp}} graden
-        <span (click)="plus5()">[+5]</span>
-        <span (click)="plus10()">[+10]</span>
+      </td>
+    </tr>
+    <tr >
+      <td  colspan="2" align="center">
+        <img (click)="min10()" src="assets/button_m10.png" >
+        <img (click)="min5()" src="assets/button_m5.png" >
+        <span class="requiredTemp">{{requiredTemp}} graden</span>
+        <img (click)="plus5()" src="assets/button_p5.png" >
+        <img (click)="plus10()" src="assets/button_p10.png" >
         <br>
-        <br><br>
-        <a (click)="settings()"> [meer instellingen]</a>
       </td>
     </tr>
 
@@ -37,6 +38,12 @@
     <tr>
       <td valign="top" colspan="2" align="center">
         Versie: {{version}}-{{profiel}}, Ingelogd als {{username}}<br>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" colspan="2" align="center">
+        <br>
+        <img (click)="settings()" src="assets/button_instellingen.png" >
       </td>
     </tr>
 

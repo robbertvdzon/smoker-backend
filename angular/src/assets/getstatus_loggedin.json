@@ -10,5 +10,6 @@
     "uploadAuthKey": "123"
   },
   "lastTemp": "22",
-  "requiredTemp": "112"
+  "requiredTemp": "112",
+  "openbaar": true
 }
