@@ -114,7 +114,7 @@ export class MainComponent implements OnInit {
   }
 
   private loadGrafiekAlles() {
-    this.smokerserviceService.getAll(this.id, "8uur").subscribe(data => {
+    this.smokerserviceService.getAll(this.id, "alles").subscribe(data => {
       let smokerData:any[] = <Array<any>>data;
 
       this.dataTableAlles = [];
