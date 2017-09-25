@@ -30,6 +30,18 @@ export class SmokerserviceService {
       );
   }
 
+  clearData() {
+    const req = this.http.get(environment.clearDataUrl)
+      .subscribe(
+        res => {
+          console.log(res);
+        },
+        err => {
+          console.log("Error occured");
+        }
+      );
+  }
+
   addRequiredTemp(add: number): Observable<Object> {
     return this.http.get(environment.getAddRequiredTempUrl+"?add="+add);
   }

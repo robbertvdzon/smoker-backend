@@ -146,5 +146,8 @@ class SmokerLogDao(
         }
     }
 
+    fun clearData() {
+        smokerlogRepository!!.deleteAll()
+    }
 
 }

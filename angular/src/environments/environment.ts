@@ -9,6 +9,7 @@ export const environment = {
   // getStatusUrl: 'assets/getstatus.json',
   getAddRequiredTempUrl: 'assets/getaddreqtemp.json',
   putSettings: 'api/setSettings',
+  clearDataUrl: 'api/clearData',
   getAllUrl: 'assets/getall.json',
   getLastUrl: 'assets/getlast.json'
 };

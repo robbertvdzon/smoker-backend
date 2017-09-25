@@ -34,4 +34,9 @@ export class SettingsComponent implements OnInit {
     this.smokerserviceService.setSettings(this.uploadAuthKey, this.openbaar);
   }
 
+  clearData():void{
+    this.smokerserviceService.clearData();
+  }
+
+
 }

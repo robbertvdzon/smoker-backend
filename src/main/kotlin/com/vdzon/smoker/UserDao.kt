@@ -17,5 +17,4 @@ class UserDao(
 
     fun findByUserid(userId: String) = userRepository!!.findByUserid(userId)
 
-
 }

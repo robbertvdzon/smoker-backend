@@ -109,6 +109,15 @@ class SmokerResource {
         }
     }
 
+    @RequestMapping("/clearData")
+    fun clearData() {
+        val user: User? = user();
+        // TODO: geef een unauthorized terug als er geen user is
+        if (user!=null) {
+            smokerLogDao!!.clearData()
+        }
+    }
+
 
     data class AddTempStatus(val requiredTemp: Int?)
     @RequestMapping("/addreqtemp")
