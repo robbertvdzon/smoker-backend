@@ -12,7 +12,7 @@
   <table width="100%">
     <tr>
       <td valign="top" colspan="2" align="center">
-        <span class="currenttemp">{{currentTemp}} graden</span>
+        <span class="currenttemp">{{currentTemp}} graden </span>
       </td>
     </tr>
     <tr>
@@ -31,11 +31,27 @@
       </td>
     </tr>
     <tr>
+      <td  colspan="2" align="center">
+        Laatste update: {{lastUpdate}}
+        <br>
+      </td>
+    </tr>
+    <tr>
       <td valign="top" width="50%">
-        <google-chart (click)="grafiek()" [data]="chartData2Uur" style="width: 50px; height: 50px"></google-chart>
+        <div *ngIf="chart2UurGeladen">
+          <google-chart (click)="grafiek()" [data]="chartData2Uur" style="width: 50px; height: 50px"></google-chart>
+        </div>
+        <div *ngIf="!chart2UurGeladen" align="center">
+          <br>(Geen data beschikbaar)<br>
+        </div>
       </td>
       <td valign="top" width="50%">
-        <google-chart (click)="grafiek()" [data]="chartData8Uur" style="width: 50px; height: 50px"></google-chart>
+        <div *ngIf="chartAllesGeladen">
+          <google-chart (click)="grafiek()" [data]="chartDataAlles" style="width: 50px; height: 50px"></google-chart>
+        </div>
+        <div *ngIf="!chartAllesGeladen" align="center">
+          <br>(Geen data beschikbaar)<br>
+        </div>
       </td>
     </tr>
 

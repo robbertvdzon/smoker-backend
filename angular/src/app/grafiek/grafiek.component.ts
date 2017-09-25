@@ -11,7 +11,7 @@ export class GrafiekComponent implements OnInit {
   userId: String;
   smokerData:any;
   dataTable: any[] = [];
-  selectedRange="2uur";
+  selectedRange="alles";
   selectedType="temp";
 
   chartData =  {
@@ -24,6 +24,7 @@ export class GrafiekComponent implements OnInit {
         hAxis: {title: 'Tijd',
           slantedText:true, slantedTextAngle:80},
         vAxis: {minValue: 80},
+        legend: 'none'
       }
   };
 
@@ -64,7 +65,7 @@ export class GrafiekComponent implements OnInit {
       this.dataTable.push(header);
       for (var i=0; i<smokerData.length; i++){
         let value = [];
-        value.push(smokerData[i].date);
+        value.push(new Date(smokerData[i].date));
         if (type=="temp" || type=="beide"){
           value.push(smokerData[i].temp);
         }
@@ -84,6 +85,7 @@ export class GrafiekComponent implements OnInit {
             hAxis: {title: 'Tijd',
               slantedText:true, slantedTextAngle:80},
             vAxis: {minValue: 80},
+            legend: 'none'
           }
       };
 

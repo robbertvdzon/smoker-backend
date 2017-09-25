@@ -12,12 +12,15 @@ export class MainComponent implements OnInit {
   constructor(private router: Router, private smokerserviceService:SmokerserviceService ) { }
   id:String;
   currentTemp:String = "?";
+  lastUpdate:String = "?";
   requiredTemp:String = "?";
   test:String;
   version:String;
   profiel:String;
   username:String;
   loggedIn:Boolean;
+  chartAllesGeladen:Boolean = false;
+  chart2UurGeladen:Boolean = false;
 
   chartData2Uur =  {
     chartType: 'LineChart',
@@ -32,12 +35,12 @@ export class MainComponent implements OnInit {
         legend: 'none'
       }
   };
-  chartData8Uur =  {
+  chartDataAlles =  {
     chartType: 'LineChart',
     dataTable: [],
     options:
       {
-        title: 'Laatste 8 uur',
+        title: 'Gehele grafiek',
         curveType: 'function',
         hAxis: {title: 'Tijd',
           slantedText:true, slantedTextAngle:80},
@@ -47,7 +50,7 @@ export class MainComponent implements OnInit {
   };
   smokerData:any;
   dataTable: any[] = [];
-  dataTable8uur: any[] = [];
+  dataTableAlles: any[] = [];
 
   ngOnInit() {
     // Deze call zou helemaal niet nodig moeten zijn! We hebben het id al!
@@ -61,11 +64,22 @@ export class MainComponent implements OnInit {
       this.loggedIn = this.username!="null";
       this.currentTemp = ""+ data['lastTemp']; // deze laad ik ook al in de loadState call!
       this.requiredTemp = ""+ data['requiredTemp'];
+      let date = new Date(data['lastUpdate']);
+      var datestring = date.getDate()  + "-" + (date.getMonth()+1) + "-" + date.getFullYear() + " " +
+        date.getHours() + ":" + date.getMinutes();
+      this.lastUpdate = datestring;
+
 
       this.loadGrafiek("2uur");
-      this.loadGrafiek8Uur();
+      this.loadGrafiekAlles();
     });
-    setInterval(()=>{this.loadState();},4000);
+    setInterval(()=>{this.reload()},4000);
+  }
+
+  private reload(){
+    this.loadGrafiek("2uur");
+    this.loadGrafiekAlles();
+    this.loadState();
   }
 
 
@@ -78,8 +92,10 @@ export class MainComponent implements OnInit {
         this.dataTable.push(['Tijd', 'Temp']);
       }
       for (var i=0; i<smokerData.length; i++){
-        this.dataTable.push([this.dataTable.length, smokerData[i].temp]);
+        this.dataTable.push([new Date(smokerData[i].date), smokerData[i].temp]);
       }
+
+      this.chart2UurGeladen = smokerData.length!=0;
 
       this.chartData2Uur =  {
         chartType: 'LineChart',
@@ -89,7 +105,7 @@ export class MainComponent implements OnInit {
             title: 'Laatste 2 uur',
             curveType: 'function',
             hAxis: {title: 'Tijd',
-              slantedText:false, slantedTextAngle:80},
+              slantedText:false, slantedTextAngle:0},
             vAxis: {minValue: 80},
             legend: 'none'
           }
@@ -97,24 +113,26 @@ export class MainComponent implements OnInit {
     });
   }
 
-  private loadGrafiek8Uur() {
+  private loadGrafiekAlles() {
     this.smokerserviceService.getAll(this.id, "8uur").subscribe(data => {
       let smokerData:any[] = <Array<any>>data;
 
-      this.dataTable8uur = [];
-      if (this.dataTable8uur.length==0) {
-        this.dataTable8uur.push(['Tijd', 'Temp']);
+      this.dataTableAlles = [];
+      if (this.dataTableAlles.length==0) {
+        this.dataTableAlles.push(['Tijd', 'Temp']);
       }
       for (var i=0; i<smokerData.length; i++){
-        this.dataTable8uur.push([this.dataTable8uur.length, smokerData[i].temp]);
+        this.dataTableAlles.push([new Date(smokerData[i].date), smokerData[i].temp]);
       }
 
-      this.chartData8Uur =  {
+      this.chartAllesGeladen  = smokerData.length!=0;
+
+        this.chartDataAlles =  {
         chartType: 'LineChart',
-        dataTable: this.dataTable8uur,
+        dataTable: this.dataTableAlles,
         options:
           {
-            title: 'Laatste 8 uur',
+            title: 'Gehele grafiek',
             curveType: 'function',
             hAxis: {title: 'Tijd',
               slantedText:false, slantedTextAngle:80},
@@ -129,6 +147,10 @@ export class MainComponent implements OnInit {
     this.smokerserviceService.getStatus().subscribe(data => {
       this.currentTemp = ""+ data['lastTemp'];
       this.requiredTemp = ""+ data['requiredTemp'];
+      let date = new Date(data['lastUpdate']);
+      var datestring = date.getDate()  + "-" + (date.getMonth()+1) + "-" + date.getFullYear() + " " +
+        date.getHours() + ":" + date.getMinutes();
+      this.lastUpdate = datestring;
     });
   }
 

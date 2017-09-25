@@ -3,10 +3,10 @@
     <td align="center">
       <form action="">
         <select (change)="setPlan($event.target.value)">
+          <option value="alles">Alles</option>
           <option value="2uur">Laatste 2 uur</option>
           <option value="8uur">Laatste 8 uur</option>
           <option value="24uur">Laatste 24 uur</option>
-          <option value="alles">Alles</option>
         </select>
 
         <select (change)="setType($event.target.value)">
