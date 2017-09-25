@@ -35,6 +35,7 @@ class SmokerResource {
             println("get all, user required")
             val user: User? = user();
             if (user==null) throw Exception("Niet ingelogd"); // TODO: geef een unauthorized terug!
+            if (user.id!=userid)  throw Exception("Unauthorized"); // TODO: geef een unauthorized terug!
         }
         val findAll = smokerLogDao!!.getRange(userid, range)?.map { SmokerLogDto.fromSmokerLog(it) }
         return findAll

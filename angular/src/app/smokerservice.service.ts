@@ -22,6 +22,7 @@ export class SmokerserviceService {
     const req = this.http.get(environment.putSettings+"?key="+uploadAuthKey+"&openbaar="+openbaar)
       .subscribe(
         res => {
+          alert("Opgeslagen");
           console.log(res);
         },
         err => {
@@ -34,6 +35,7 @@ export class SmokerserviceService {
     const req = this.http.get(environment.clearDataUrl)
       .subscribe(
         res => {
+          alert("Data verwijderd");
           console.log(res);
         },
         err => {
