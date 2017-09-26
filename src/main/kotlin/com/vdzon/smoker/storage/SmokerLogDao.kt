@@ -121,7 +121,9 @@ class SmokerLogDao(
             val endTime: Date = Date();
             val localEndDate: LocalDateTime = toLocalDateTime(endTime)
             val localStartDate = localEndDate.minusHours(hours)
-            val startTime = Date.from(localStartDate.toInstant(ZoneOffset.ofHours(2)))
+            val systemDefault = ZoneId.systemDefault()
+            localStartDate.atZone(systemDefault).toInstant()
+            val startTime = Date.from(localStartDate.atZone(systemDefault).toInstant())
             return Dates(startTime, endTime)
         }
 
