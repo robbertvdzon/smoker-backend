@@ -1,5 +1,6 @@
-package com.vdzon.smoker
+package com.vdzon.smoker.storage
 
+import com.vdzon.smoker.model.SmokerUser
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 

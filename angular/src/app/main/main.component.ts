@@ -85,7 +85,7 @@ export class MainComponent implements OnInit {
 
       let date = new Date(data['lastUpdate']);
       var datestring = date.getDate()  + "-" + (date.getMonth()+1) + "-" + date.getFullYear() + " " +
-        date.getHours() + ":" + date.getMinutes();
+        date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
       this.lastUpdate = datestring;
 
 
@@ -173,7 +173,7 @@ export class MainComponent implements OnInit {
         let sample = new Sample();
         let date = new Date(lastsamples[i].date);
         var datestring = date.getDate()  + "-" + (date.getMonth()+1) + "-" + date.getFullYear() + " " +
-          date.getHours() + ":" + date.getMinutes();
+          date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
         sample.date = datestring;
         sample.temp = lastsamples[i].temp;
         this.last5samples.push(sample);

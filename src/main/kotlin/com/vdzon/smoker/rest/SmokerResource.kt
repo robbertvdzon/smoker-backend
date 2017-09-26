@@ -1,5 +1,11 @@
-package com.vdzon.smoker
+package com.vdzon.smoker.rest
 
+import com.vdzon.smoker.SmokerProperties
+import com.vdzon.smoker.model.SmokerUser
+import com.vdzon.smoker.model.SmokerLog
+import com.vdzon.smoker.storage.SmokerLogDao
+import com.vdzon.smoker.storage.SmokerLogDto
+import com.vdzon.smoker.storage.UserDao
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.social.connect.ConnectionRepository
 import org.springframework.social.facebook.api.Facebook
@@ -66,7 +72,7 @@ class SmokerResource {
         return smokerLogDao!!.save(smokerLog)
     }
 
-    fun findOrCreateUser(id:String):SmokerUser{
+    fun findOrCreateUser(id:String): SmokerUser {
         val smokerUser: SmokerUser? = userDao!!.findByUserid(id)
         if (smokerUser!=null) return smokerUser;
         val newSmokerUser: SmokerUser = SmokerUser(userid = id, uploadAuthKey = UUID.randomUUID().toString(), openbaar = false, requiredTemp = 110);
@@ -80,17 +86,17 @@ class SmokerResource {
         return primaryConnection?.api.fetchObject("me", User::class.java, *fields)
     }
 
-    data class Status(val userid: String?,val username: String?,val authenticated: Boolean, val version:String?, val profiel:String?, val user:SmokerUser?, val lastTemp: Int?, val requiredTemp: Int?, val lastUpdate: Date?, val openbaar: Boolean?, val lastSamples:List<SmokerLog>?)
+    data class Status(val userid: String?, val username: String?, val authenticated: Boolean, val version:String?, val profiel:String?, val user: SmokerUser?, val lastTemp: Int?, val requiredTemp: Int?, val lastUpdate: Date?, val openbaar: Boolean?, val lastSamples:List<SmokerLog>?)
     @RequestMapping("/getstatus")
     fun getstatus(): Status {
         val user: User? = user();
-        val smokerUser:SmokerUser? = if (user==null) null else findOrCreateUser(user.id)
+        val smokerUser: SmokerUser? = if (user==null) null else findOrCreateUser(user.id)
         val lastSample = if (user==null) null else getLastSample(user.id)
         return Status(username = user?.firstName,
                 userid = user?.id,
-                authenticated = user!=null,
+                authenticated = user != null,
                 version = smokerProperties!!.buildVersion,
-                profiel =  smokerProperties!!.configuratieProfiel,
+                profiel = smokerProperties!!.configuratieProfiel,
                 user = smokerUser,
                 lastTemp = lastSample?.temp,
                 lastUpdate = lastSample?.date,
@@ -123,7 +129,7 @@ class SmokerResource {
 
     data class AddTempStatus(val requiredTemp: Int?)
     @RequestMapping("/addreqtemp")
-    fun addReqTemp(@RequestParam(value = "add") add: Int):AddTempStatus {
+    fun addReqTemp(@RequestParam(value = "add") add: Int): AddTempStatus {
         val user: User? = user();
         // TODO: geef een unauthorized terug als er geen user is
         if (user!=null) {

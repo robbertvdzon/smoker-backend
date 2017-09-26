@@ -1,5 +1,6 @@
-package com.vdzon.smoker
+package com.vdzon.smoker.storage
 
+import com.vdzon.smoker.model.SmokerLog
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Sort
 import org.springframework.data.mongodb.core.MongoTemplate
