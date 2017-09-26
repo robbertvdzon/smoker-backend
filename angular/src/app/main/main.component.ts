@@ -3,6 +3,11 @@ import {SmokerserviceService} from "../smokerservice.service";
 import {hasModifier} from "tslint";
 import {Router} from "@angular/router";
 
+export class Sample{
+  date:String;
+  temp:String;
+}
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -21,7 +26,7 @@ export class MainComponent implements OnInit {
   loggedIn:Boolean;
   chartAllesGeladen:Boolean = false;
   chart2UurGeladen:Boolean = false;
-  last5samples:any[];
+  last5samples:Sample[];
 
   chartData2Uur =  {
     chartType: 'LineChart',
@@ -65,7 +70,19 @@ export class MainComponent implements OnInit {
       this.loggedIn = this.username!="null";
       this.currentTemp = ""+ data['lastTemp']; // deze laad ik ook al in de loadState call!
       this.requiredTemp = ""+ data['requiredTemp'];
-      this.last5samples = data["lastSamples"];
+      this.last5samples = [];
+
+      let lastsamples = data["lastSamples"];
+      for (var i=0; i<lastsamples.length; i++){
+        let sample = new Sample();
+        let date = new Date(lastsamples[i].date);
+        var datestring = date.getDate()  + "-" + (date.getMonth()+1) + "-" + date.getFullYear() + " " +
+           date.getHours() + ":" + date.getMinutes();
+        sample.date = datestring;
+        sample.temp = lastsamples[i].temp;
+        this.last5samples.push(sample);
+      }
+
       let date = new Date(data['lastUpdate']);
       var datestring = date.getDate()  + "-" + (date.getMonth()+1) + "-" + date.getFullYear() + " " +
         date.getHours() + ":" + date.getMinutes();
@@ -149,7 +166,19 @@ export class MainComponent implements OnInit {
     this.smokerserviceService.getStatus().subscribe(data => {
       this.currentTemp = ""+ data['lastTemp'];
       this.requiredTemp = ""+ data['requiredTemp'];
-      this.last5samples = data["lastSamples"];
+      this.last5samples = [];
+
+      let lastsamples = data["lastSamples"];
+      for (var i=0; i<lastsamples.length; i++){
+        let sample = new Sample();
+        let date = new Date(lastsamples[i].date);
+        var datestring = date.getDate()  + "-" + (date.getMonth()+1) + "-" + date.getFullYear() + " " +
+          date.getHours() + ":" + date.getMinutes();
+        sample.date = datestring;
+        sample.temp = lastsamples[i].temp;
+        this.last5samples.push(sample);
+      }
+
       let date = new Date(data['lastUpdate']);
       var datestring = date.getDate()  + "-" + (date.getMonth()+1) + "-" + date.getFullYear() + " " +
         date.getHours() + ":" + date.getMinutes();
