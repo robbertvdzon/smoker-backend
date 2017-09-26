@@ -42,6 +42,7 @@ class SmokerLogDao(
         if (userId.isEmpty()) return null;
         val (startTime: Date, endTime: Date) = transformDate(range)
         val reduceOutput = hoursBetween(startTime, endTime) > 2
+        println("GET RANGE rage=$range startTime=$startTime endTime=$endTime reduceOutput=$reduceOutput")
         return if (reduceOutput) {
             val agg = Aggregation.newAggregation(
                     Aggregation.project()

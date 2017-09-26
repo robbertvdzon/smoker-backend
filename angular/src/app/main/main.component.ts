@@ -76,16 +76,34 @@ export class MainComponent implements OnInit {
       for (var i=0; i<lastsamples.length; i++){
         let sample = new Sample();
         let date = new Date(lastsamples[i].date);
-        var datestring = date.getDate()  + "-" + (date.getMonth()+1) + "-" + date.getFullYear() + " " +
-           date.getHours() + ":" + date.getMinutes();
+        var datestring = date.getDate()
+          + "-"
+          + (date.getMonth()+1)
+          + "-"
+          + date.getFullYear()
+          + " "
+          + this.zeroPad(date.getHours(),2)
+          + ":"
+          + this.zeroPad(date.getMinutes(),2)
+          + ":"
+          + this.zeroPad(date.getSeconds(),2);
         sample.date = datestring;
         sample.temp = lastsamples[i].temp;
         this.last5samples.push(sample);
       }
 
       let date = new Date(data['lastUpdate']);
-      var datestring = date.getDate()  + "-" + (date.getMonth()+1) + "-" + date.getFullYear() + " " +
-        date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+      var datestring = date.getDate()
+        + "-"
+        + (date.getMonth()+1)
+        + "-"
+        + date.getFullYear()
+        + " "
+        + this.zeroPad(date.getHours(),2)
+        + ":"
+        + this.zeroPad(date.getMinutes(),2)
+        + ":"
+        + this.zeroPad(date.getSeconds(),2);
       this.lastUpdate = datestring;
 
 
@@ -180,10 +198,24 @@ export class MainComponent implements OnInit {
       }
 
       let date = new Date(data['lastUpdate']);
-      var datestring = date.getDate()  + "-" + (date.getMonth()+1) + "-" + date.getFullYear() + " " +
-        date.getHours() + ":" + date.getMinutes();
+      var datestring = date.getDate()
+        + "-"
+        + (date.getMonth()+1)
+        + "-"
+        + date.getFullYear()
+        + " "
+        + this.zeroPad(date.getHours(),2)
+        + ":"
+        + this.zeroPad(date.getMinutes(),2)
+        + ":"
+        + this.zeroPad(date.getSeconds(),2);
       this.lastUpdate = datestring;
     });
+  }
+
+  private zeroPad(num:number, places:number) {
+    var zero = places - num.toString().length + 1;
+    return Array(+(zero > 0 && zero)).join("0") + num;
   }
 
 
