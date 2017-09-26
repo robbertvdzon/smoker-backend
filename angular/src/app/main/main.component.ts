@@ -190,8 +190,17 @@ export class MainComponent implements OnInit {
       for (var i=0; i<lastsamples.length; i++){
         let sample = new Sample();
         let date = new Date(lastsamples[i].date);
-        var datestring = date.getDate()  + "-" + (date.getMonth()+1) + "-" + date.getFullYear() + " " +
-          date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        var datestring = date.getDate()
+          + "-"
+          + (date.getMonth()+1)
+          + "-"
+          + date.getFullYear()
+          + " "
+          + this.zeroPad(date.getHours(),2)
+          + ":"
+          + this.zeroPad(date.getMinutes(),2)
+          + ":"
+          + this.zeroPad(date.getSeconds(),2);
         sample.date = datestring;
         sample.temp = lastsamples[i].temp;
         this.last5samples.push(sample);
