@@ -61,6 +61,15 @@
         Versie: {{version}}-{{profiel}}, Ingelogd als {{username}}<br>
       </td>
     </tr>
+
+    <tr>
+      <td valign="top" colspan="2" align="center">
+        <div *ngFor='let sample of last5samples; trackBy: index;'>
+          {{ sample.date }} : {{ sample.temp }} graden <br>
+        </div>
+      </td>
+    </tr>
+
     <tr>
       <td valign="top" colspan="2" align="center">
         <br>
@@ -69,8 +78,5 @@
     </tr>
 
   </table>
-
-
-
 
 </div>
