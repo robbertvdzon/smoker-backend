@@ -5,6 +5,11 @@ export const environment = {
   putSettings: 'api/setSettings',
   clearDataUrl: 'api/clearData',
   getAllUrl: 'api/getall',
-  getLastUrl: 'api/getlast'
+  getLastUrl: 'api/getlast',
+
+  KEYCLOAK_URL: 'http://localhost:8090/auth',
+  KEYCLOAK_REALM: 'smoker',
+  KEYCLOAK_CLIENTID: 'smoker-frontend',
+  BACKEND_URL: 'http://localhost:8080/api'
 
 };
